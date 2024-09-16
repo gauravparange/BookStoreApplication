@@ -2,6 +2,7 @@
 using BookStore.Repositary;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 
 namespace BookStore.Controllers
 {
@@ -12,9 +13,10 @@ namespace BookStore.Controllers
         {
             _bookRepositary = new BookRepositary();
         }
-        public List<BookModel> GetAllBooks()
+        public ViewResult GetAllBooks()
         {
-            return _bookRepositary.GetAllBooks();
+            var data = _bookRepositary.GetAllBooks();
+            return View(data);
         }
         public List<BookModel> SearchBooks(string title,string Authorname)
         {
