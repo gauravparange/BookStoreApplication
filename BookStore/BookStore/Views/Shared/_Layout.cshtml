@@ -45,6 +45,8 @@
             </div>
         </nav>
     </header>
+    @RenderSection("breadcrumb",false)
+    
     <main role="main">
         @RenderBody()
     </main>
@@ -53,6 +55,8 @@
             Copyright &copy; Book Store @DateTime.Now.Year.ToString()
         </div>
     </footer>
-   
+   <script src="~/lib/jquery/jquery.js"></script>
+
+   @RenderSection("scripts",false)
 </body>
 </html>
