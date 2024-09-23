@@ -11,7 +11,7 @@ namespace BookStore.Repositary
         {
             return Datasource();
         }
-        public BookModel GetAllBookById(int id)
+        public BookModel GetBookById(int id)
         {
             return Datasource().Where( x => x.Id == id).FirstOrDefault();
         }
@@ -24,11 +24,11 @@ namespace BookStore.Repositary
         {
             return new List<BookModel>()
            {
-               new BookModel() {Id = 1, Title = "MVC", Author = "Gaurav" , Description = "This is the descriprion for MVC book by Gaurav."},
-               new BookModel() {Id = 2, Title = "Dot Net Core", Author = "Gaurav", Description = "This is the descriprion for Dot Net Core book by Gaurav." },
-               new BookModel() {Id = 3, Title = "C#", Author = "Shifa", Description = "This is the descriprion for C# book by Shifa." },
-               new BookModel() {Id = 4, Title = "Java", Author = "Suraj" , Description = "This is the descriprion for Java book by Suraj."},
-               new BookModel() {Id = 5, Title = "Php", Author = "Shekhar" , Description = "This is the descriprion for Php book by Shekhar."},
+               new BookModel() {Id = 1, Title = "MVC", Author = "Gaurav" , Description = "This is the descriprion for MVC book by Gaurav.",Category="Programming",Language="English",TotalPages=134},
+               new BookModel() {Id = 2, Title = "Dot Net Core", Author = "Gaurav", Description = "This is the descriprion for Dot Net Core book by Gaurav." ,Category="Programming",Language="English",TotalPages=200},
+               new BookModel() {Id = 3, Title = "C#", Author = "Shifa", Description = "This is the descriprion for C# book by Shifa." ,Category="Programming",Language="English",TotalPages=300},
+               new BookModel() {Id = 4, Title = "Java", Author = "Suraj" , Description = "This is the descriprion for Java book by Suraj.",Category="Programming",Language="English",TotalPages=150},
+               new BookModel() {Id = 5, Title = "Php", Author = "Shekhar" , Description = "This is the descriprion for Php book by Shekhar.",Category="Programming",Language="English",TotalPages=180},
             };
         }
     }

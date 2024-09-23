@@ -18,6 +18,11 @@ namespace BookStore.Controllers
             var data = _bookRepositary.GetAllBooks();
             return View(data);
         }
+        public ViewResult GetBook(int id)
+        {
+            var data = _bookRepositary.GetBookById(id);
+            return View(data);
+        }
         public List<BookModel> SearchBooks(string title,string Authorname)
         {
             return _bookRepositary.SearchBook(title, Authorname);
