@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,13 +18,27 @@ namespace BookStore.Controllers
         {
             _logger = logger;
         }
-
+        [ViewData]
+        public string Title { get; set; }
         public IActionResult Index()
         {
+            //ViewBag.Title = "Home";
+            //ViewBag.Id = 1;
+
+            dynamic data = new ExpandoObject();
+            data.Title = "Title";
+            data.Id = 2;
+            ViewBag.data = data;
+            Title = "HomePage";
+            //ViewBag.type = new BookModel() { Id = 3, Title = "Type" };
+
+            ViewData["MyProperty"] = "Home";
+            ViewData["book"] = new BookModel() { Id = 1, Author = "Gaurav" };
             return View();
         }
         public IActionResult AboutUs()
         {
+            Title = "About Us Page";
             return View();
         }
         
