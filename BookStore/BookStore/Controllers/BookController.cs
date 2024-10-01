@@ -18,7 +18,7 @@ namespace BookStore.Controllers
             var data = _bookRepositary.GetAllBooks();
             return View(data);
         }
-        public ViewResult GetBook(int id)
+        public ViewResult GetBook(int id,string nameOfBook)
         {
             var data = _bookRepositary.GetBookById(id);
             return View(data);
