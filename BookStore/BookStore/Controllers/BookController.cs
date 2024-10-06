@@ -27,5 +27,14 @@ namespace BookStore.Controllers
         {
             return _bookRepositary.SearchBook(title, Authorname);
         }
+        public ViewResult AddNewBook()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ViewResult AddNewBook(BookModel model)
+        {
+            return View();
+        }
     }
 }
