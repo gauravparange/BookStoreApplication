@@ -1,4 +1,5 @@
-﻿using BookStore.Models;
+﻿using BookStore.Data;
+using BookStore.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -7,6 +8,11 @@ namespace BookStore.Repositary
 {
     public class BookRepositary
     {
+        private readonly BookStoreContext _context;
+        public BookRepositary(BookStoreContext context)
+        {
+            _context = context; 
+        }
         public List<BookModel> GetAllBooks()
         {
             return Datasource();
@@ -14,6 +20,19 @@ namespace BookStore.Repositary
         public BookModel GetBookById(int id)
         {
             return Datasource().Where( x => x.Id == id).FirstOrDefault();
+        }
+        public int AddNewBook(BookModel book) 
+        {
+            var newbook = new BookModel()
+            {
+                Author = book.Author,
+                Description = book.Description,
+                Title = book.Title,
+                TotalPages = book.TotalPages
+            };
+            _context.BookModel.Add(newbook);
+            _context.SaveChanges();
+            return newbook.Id;
         }
         public List<BookModel> SearchBook(string title, string authorName)
         {

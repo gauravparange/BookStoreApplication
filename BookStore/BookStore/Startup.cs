@@ -1,4 +1,5 @@
 using BookStore.Data;
+using BookStore.Repositary;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -26,8 +27,9 @@ namespace BookStore
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server = MSI\\SQLEXPRESS; Database = BookStore; Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30"));
+            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server = localhost\\SQLEXPRESS; Database = BookStore; Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30"));
             services.AddControllersWithViews();
+            services.AddScoped<BookRepositary, BookRepositary>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif

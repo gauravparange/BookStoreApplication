@@ -9,16 +9,16 @@ namespace BookStore.Controllers
     public class BookController : Controller
     {
         private readonly BookRepositary _bookRepositary;
-        public BookController()
+        public BookController(BookRepositary bookRepositary)
         {
-            _bookRepositary = new BookRepositary();
+            _bookRepositary = bookRepositary;
         }
         public ViewResult GetAllBooks()
         {
             var data = _bookRepositary.GetAllBooks();
             return View(data);
         }
-        public ViewResult GetBook(int id,string nameOfBook)
+        public ViewResult GetBook(int id)
         {
             var data = _bookRepositary.GetBookById(id);
             return View(data);
@@ -27,13 +27,20 @@ namespace BookStore.Controllers
         {
             return _bookRepositary.SearchBook(title, Authorname);
         }
-        public ViewResult AddNewBook()
+        public ViewResult AddNewBook(bool issuccess = false, int bookId = 0)
         {
+            ViewBag.IsSuccess = issuccess;
+            ViewBag.bookId = bookId;
             return View();
         }
         [HttpPost]
-        public ViewResult AddNewBook(BookModel model)
+        public IActionResult AddNewBook(BookModel model)
         {
+            int id = _bookRepositary.AddNewBook(model);
+            if (id > 0)
+            {
+                return RedirectToAction(nameof(AddNewBook), new {issuccess = true,bookId = id});    
+            }
             return View();
         }
     }
