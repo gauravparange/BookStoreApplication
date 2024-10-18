@@ -3,6 +3,7 @@ using BookStore.Repositary;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net.WebSockets;
+using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
@@ -13,14 +14,14 @@ namespace BookStore.Controllers
         {
             _bookRepositary = bookRepositary;
         }
-        public ViewResult GetAllBooks()
+        public async Task<ViewResult> GetAllBooks()
         {
-            var data = _bookRepositary.GetAllBooks();
+            var data = await _bookRepositary.GetAllBooks();
             return View(data);
         }
-        public ViewResult GetBook(int id)
+        public async Task<ViewResult> GetBook(int id)
         {
-            var data = _bookRepositary.GetBookById(id);
+            var data = await _bookRepositary.GetBookById(id);
             return View(data);
         }
         public List<BookModel> SearchBooks(string title,string Authorname)
@@ -34,13 +35,17 @@ namespace BookStore.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddNewBook(BookModel model)
+        public async Task<IActionResult> AddNewBook(BookModel model)
         {
-            int id = _bookRepositary.AddNewBook(model);
-            if (id > 0)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(AddNewBook), new {issuccess = true,bookId = id});    
+                int id = await _bookRepositary.AddNewBook(model);
+                if (id > 0)
+                {
+                    return RedirectToAction(nameof(AddNewBook), new { issuccess = true, bookId = id });
+                }
             }
+           // ModelState.AddModelError("", "This is my custom error message");
             return View();
         }
     }
