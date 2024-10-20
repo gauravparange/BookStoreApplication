@@ -87,5 +87,15 @@ namespace BookStore.Repositary
                new BookModel() {Id = 5, Title = "Php", Author = "Shekhar" , Description = "This is the descriprion for Php book by Shekhar.",Category="Programming",Language="English",TotalPages=180},
             };
         }
+        public List<LanguageModel> GetLangauges()
+        {
+            return new List<LanguageModel>()
+            {
+                new LanguageModel() {Id = 1,text = "English" },
+                new LanguageModel() {Id = 2,text = "Hindi" },
+                new LanguageModel() {Id = 3,text = "Marathi" }
+            };
+
+        }
     }
 }
