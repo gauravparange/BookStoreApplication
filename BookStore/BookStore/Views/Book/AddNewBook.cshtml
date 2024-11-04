@@ -9,7 +9,7 @@
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Congratulations!</strong> You have added new book succesfully.<br />
             Click <a asp-action="GetBook" asp-controller="book" asp-route-id="@ViewBag.bookId">here</a> to view details.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <button type="button" class="close"      aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
@@ -40,42 +40,14 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Language" class="control-label"></label>
-            <select asp-for="Language" class="form-control" asp-items="ViewBag.Langauage">
+            <label asp-for="LanguageId" class="control-label"></label>
+            <select asp-for="LanguageId" class="form-control" asp-items="ViewBag.Language">
                 <option value="">Please choose your language</option>
-                <@* <option value="Hindi">Hindi (Indian)</option>
-                <option value="English">English (us)</option>
-                <option value="Dutch">Dutch (french)</option> *@
-
                 </select>
-            <span asp-validation-for="Language" class="text-danger"></span>
+            <span asp-validation-for="LanguageId" class="text-danger"></span>
 
         </div>
-        <div class="form-group">
-            <label asp-for="LanguageEnum" class="control-label"></label>
-            <select asp-for="LanguageEnum" class="form-control" asp-items="Html.GetEnumSelectList<LanguageEnum>()">
-                <option value="">Please choose your language</option>
-                <@* <option value="Hindi">Hindi (Indian)</option>
-                <option value="English">English (us)</option>
-                <option value="Dutch">Dutch (french)</option> *@
-
-                </select>
-            <span asp-validation-for="LanguageEnum" class="text-danger"></span>
-
-        </div>
-
-        <div class="form-group">
-            <label asp-for="MultiLanguage" class="control-label"></label>
-            <select asp-for="MultiLanguage" class="form-control" asp-items="ViewBag.Langauage">
-                <option value="">Please choose your language</option>
-                <@* <option value="Hindi">Hindi (Indian)</option>
-                    <option value="English">English (us)</option>
-                    <option value="Dutch">Dutch (french)</option> *@
-
-            </select>
-            <span asp-validation-for="MultiLanguage" class="text-danger"></span>
-
-        </div>
+      
 
 
         <div class="form-group">

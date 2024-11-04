@@ -11,6 +11,7 @@ namespace BookStore.Data
              
         }
 
-        public DbSet<BookModel> BookModel { get; set; }
+        public DbSet<Books> Books { get; set; }
+        public DbSet<Language> Language { get; set; }
     }
 }

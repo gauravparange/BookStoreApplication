@@ -30,6 +30,7 @@ namespace BookStore
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server = localhost\\SQLEXPRESS; Database = BookStore; Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30"));
             services.AddControllersWithViews();
             services.AddScoped<BookRepositary, BookRepositary>();
+            services.AddScoped<LanguageRepositary, LanguageRepositary>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
 #endif

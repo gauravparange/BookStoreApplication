@@ -1,4 +1,5 @@
-﻿using BookStore.Models;
+﻿using BookStore.Data;
+using BookStore.Models;
 using BookStore.Repositary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,9 +13,11 @@ namespace BookStore.Controllers
     public class BookController : Controller
     {
         private readonly BookRepositary _bookRepositary;
-        public BookController(BookRepositary bookRepositary)
+        private readonly LanguageRepositary _languageRepositary;
+        public BookController(BookRepositary bookRepositary, LanguageRepositary languageRepositary)
         {
             _bookRepositary = bookRepositary;
+            _languageRepositary = languageRepositary;
         }
         public async Task<ViewResult> GetAllBooks()
         {
@@ -26,11 +29,11 @@ namespace BookStore.Controllers
             var data = await _bookRepositary.GetBookById(id);
             return View(data);
         }
-        public List<BookModel> SearchBooks(string title,string Authorname)
+        public List<Books> SearchBooks(string title,string Authorname)
         {
             return _bookRepositary.SearchBook(title, Authorname);
         }
-        public ViewResult AddNewBook(bool issuccess = false, int bookId = 0)
+        public async Task<IActionResult> AddNewBook(bool issuccess = false, int bookId = 0)
         {
             ViewBag.IsSuccess = issuccess;
             ViewBag.bookId = bookId;
@@ -52,16 +55,19 @@ namespace BookStore.Controllers
             //    new SelectListItem(){Text = "Urdu",Value = "5", Group=group3},
             //    new SelectListItem(){Text = "Malayam",Value = "6", Group=group3},
             //};
-                
-                
-                
-                
-                
+
+
+
+
+
             //    _bookRepositary.GetLangauges().Select(x => new SelectListItem()
             //{
             //    Text = x.text
             //});
-            return View();
+
+            var model = new BookModel();
+            ViewBag.Language = new SelectList(await _languageRepositary.GetAll(),"Id","Name");
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> AddNewBook(BookModel model)
@@ -95,6 +101,7 @@ namespace BookStore.Controllers
             //    new SelectListItem(){Text = "Urdu",Value = "5", Group=group3},
             //    new SelectListItem(){Text = "Malayam",Value = "6", Group=group3},
             //};
+            ViewBag.Language = new SelectList(await _languageRepositary.GetAll(), "Id", "Name");
 
             return View();
         }
