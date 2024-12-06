@@ -1,9 +1,12 @@
 ﻿using BookStore.Data;
 using BookStore.Models;
 using BookStore.Repositary;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
@@ -14,10 +17,13 @@ namespace BookStore.Controllers
     {
         private readonly BookRepositary _bookRepositary;
         private readonly LanguageRepositary _languageRepositary;
-        public BookController(BookRepositary bookRepositary, LanguageRepositary languageRepositary)
+        private readonly IWebHostEnvironment _webhost;
+
+        public BookController(BookRepositary bookRepositary, LanguageRepositary languageRepositary, IWebHostEnvironment webhost)
         {
             _bookRepositary = bookRepositary;
             _languageRepositary = languageRepositary;
+            _webhost = webhost;
         }
         public async Task<ViewResult> GetAllBooks()
         {
@@ -75,6 +81,24 @@ namespace BookStore.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(model.CoverPhoto != null)
+                {
+                    var currentDate = DateTime.Now;
+
+                    // Build the folder path using the current date and sanitized time
+                    string folder = "images/book/cover/";
+
+                    // Combine the formatted time with the day, month, and year to create a unique filename
+                    folder += currentDate.Day.ToString() + currentDate.Month.ToString() + currentDate.Year.ToString() + currentDate.ToString("HH.mm.ss") + "_"+  Path.GetFileName(model.CoverPhoto.FileName);
+
+                    // Combine the folder path and filename to get the full server path
+                    string serverFolder = Path.Combine(_webhost.WebRootPath, folder);
+                    // Save the file
+                    await model.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                    model.CoverImageUrl = "~" + folder;
+                }
+
+
                 int id = await _bookRepositary.AddNewBook(model);
                 if (id > 0)
                 {

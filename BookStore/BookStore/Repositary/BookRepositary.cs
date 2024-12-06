@@ -30,9 +30,11 @@ namespace BookStore.Repositary
                         Category = book.Category,
                         Description = book.Description,
                         LanguageId = book.LanguageId,
-                        Language = book.Language.name,
+                        Language =  _context.Language.Where(x => x.Id == book.LanguageId).FirstOrDefault().name,
                         Title = book.Title,
-                        TotalPages = book.TotalPages
+                        TotalPages = book.TotalPages,
+                        CoverImageUrl = book.CoverImageUrl
+
                     });
                 }
             }
@@ -49,7 +51,9 @@ namespace BookStore.Repositary
                 LanguageId = book.LanguageId,
                 Language = book.Language.name,
                 Title = book.Title,
-                TotalPages = book.TotalPages.HasValue ? book.TotalPages.Value : 0
+                TotalPages = book.TotalPages.HasValue ? book.TotalPages.Value : 0,
+                CoverImageUrl = book.CoverImageUrl
+
             }).FirstOrDefaultAsync();
         }
         public async Task<int>  AddNewBook(BookModel book) 
@@ -62,7 +66,8 @@ namespace BookStore.Repositary
                 Description = book.Description,
                 LanguageId = book.LanguageId,
                 Title = book.Title,
-                TotalPages = book.TotalPages
+                TotalPages = book.TotalPages,
+                CoverImageUrl = book.CoverImageUrl
             };
             await _context.Books.AddAsync(newbook);
             await _context.SaveChangesAsync();

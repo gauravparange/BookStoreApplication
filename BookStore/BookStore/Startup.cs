@@ -33,6 +33,11 @@ namespace BookStore
             services.AddScoped<LanguageRepositary, LanguageRepositary>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            //    .AddViewOptions(option =>
+            //{
+
+            //    option.HtmlHelperOptions.ClientValidationEnabled = false;
+            //});
 #endif
         }
 

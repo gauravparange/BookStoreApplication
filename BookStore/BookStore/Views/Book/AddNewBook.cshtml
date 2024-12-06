@@ -14,8 +14,15 @@
             </button>
         </div>
     }
-    
-    <form method="post" asp-action="AddNewBook" asp-controller="Book">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status" style="display:none" id="myLoader">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+   @*  data-ajax="true" data-ajax-complete="myComplete" data-ajax-success="mySuccess" data-ajax-failure="myFailure" data-ajax-loading="#myLoader"
+     *@
+    <form method="post" enctype="multipart/form-data" asp-action="AddNewBook"
+    asp-controller="Book">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
@@ -63,8 +70,18 @@
         <div class="form-group">
 
             <label asp-for="TotalPages" class="control-label"></label>
-            <input asp-for="TotalPages" class="form-control"></input>
+            <input asp-for="TotalPages" class="form-control">
             <span asp-validation-for="TotalPages" class="text-danger"></span>
+
+        </div>
+        <div class="form-group">
+
+            <label asp-for="CoverPhoto" class="control-label"></label>
+            <div class="custom-file">
+                <input class="custom-file-input" asp-for="CoverPhoto" id="customFile">
+                <label for="customFile" class="custom-file-label">Choose file</label>
+            </div>
+            <span asp-validation-for="CoverPhoto" class="text-danger"></span>
 
         </div>
         <div class="form-group">
@@ -73,3 +90,19 @@
 
     </form>
 </div>
+@section scripts {
+
+    <script>
+        function myComplete(data)
+        {
+            alert("I am Complete");
+        }
+        function mySuccess(data)
+        {
+            alert("I am Success");
+        }
+        function myFailure(data) {
+            alert("I am Failure");
+        }
+    </script>
+}
