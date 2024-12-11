@@ -2,6 +2,7 @@
 using BookStore.Models;
 using BookStore.Repositary;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -83,19 +84,29 @@ namespace BookStore.Controllers
             {
                 if(model.CoverPhoto != null)
                 {
-                    var currentDate = DateTime.Now;
 
-                    // Build the folder path using the current date and sanitized time
                     string folder = "images/book/cover/";
+                    model.CoverImageUrl =  await UploadFile(folder,model.CoverPhoto);
+                }
+                if(model.GalleryFiles != null)
+                {
+                    string folder = "images/book/gallery/";
 
-                    // Combine the formatted time with the day, month, and year to create a unique filename
-                    folder += currentDate.Day.ToString() + currentDate.Month.ToString() + currentDate.Year.ToString() + currentDate.ToString("HH.mm.ss") + "_"+  Path.GetFileName(model.CoverPhoto.FileName);
-
-                    // Combine the folder path and filename to get the full server path
-                    string serverFolder = Path.Combine(_webhost.WebRootPath, folder);
-                    // Save the file
-                    await model.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
-                    model.CoverImageUrl = "~" + folder;
+                    model.Gallery = new List<GalleryModel>();
+                    foreach (var file in model.GalleryFiles) 
+                    {
+                        var gallery = new GalleryModel()
+                        {
+                            Name = file.Name,
+                            URL = await UploadFile(folder, file)
+                        };
+                        model.Gallery.Add(gallery);
+                    }
+                }
+                if (model.BookPdf != null)
+                {
+                    string folder = "images/book/pdf/";
+                    model.BookPdfUrl = await UploadFile(folder, model.BookPdf);
                 }
 
 
@@ -128,6 +139,20 @@ namespace BookStore.Controllers
             ViewBag.Language = new SelectList(await _languageRepositary.GetAll(), "Id", "Name");
 
             return View();
+        }
+
+        private async Task<string> UploadFile(string folderPath,IFormFile file)
+        {
+            var currentDate = DateTime.Now;
+
+            // Combine the formatted time with the day, month, and year to create a unique filename
+            folderPath += Guid.NewGuid().ToString() + "_" + Path.GetFileName(file.FileName);
+
+            // Combine the folder path and filename to get the full server path
+            string serverFolder = Path.Combine(_webhost.WebRootPath, folderPath);
+            // Save the file
+            await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+            return "/" + folderPath;
         }
     }
 }

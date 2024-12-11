@@ -52,7 +52,14 @@ namespace BookStore.Repositary
                 Language = book.Language.name,
                 Title = book.Title,
                 TotalPages = book.TotalPages.HasValue ? book.TotalPages.Value : 0,
-                CoverImageUrl = book.CoverImageUrl
+                CoverImageUrl = book.CoverImageUrl,
+                Gallery = book.bookGallery.Select(g => new GalleryModel()
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    URL = g.URL,
+                }).ToList(),
+                BookPdfUrl = book.BookPdfUrl
 
             }).FirstOrDefaultAsync();
         }
@@ -67,8 +74,18 @@ namespace BookStore.Repositary
                 LanguageId = book.LanguageId,
                 Title = book.Title,
                 TotalPages = book.TotalPages,
-                CoverImageUrl = book.CoverImageUrl
+                CoverImageUrl = book.CoverImageUrl,
+                BookPdfUrl = book.BookPdfUrl
             };
+            newbook.bookGallery = new List<BookGallery>();
+            foreach (var item in book.Gallery)
+            {
+                newbook.bookGallery.Add(new BookGallery()
+                {
+                    Name = item.Name,
+                    URL = item.URL
+                });
+            }
             await _context.Books.AddAsync(newbook);
             await _context.SaveChangesAsync();
             return newbook.Id;
