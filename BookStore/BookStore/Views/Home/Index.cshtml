@@ -19,51 +19,29 @@
         </p>
     </div>
 </section>
+
 <div class="py-5 bg-light">
     <div class="container">
+        <h3 class="h3">Top Books</h3>
         <div class="row">
             <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"></svg>
-                    <div class="card-body">
-                        <p class="text"> This section will be used to display the short description </p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View details</a>
-                            </div>
-                            <small class="text-muted">Author name</small>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_bookThumbnail" model="new BookModel()"/>
+               @*  @Html.Partial("_bookThumbnail", new BookModel()) *@
             </div>
             <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"></svg>
-                    <div class="card-body">
-                        <p class="text"> This section will be used to display the short description </p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View details</a>
-                            </div>
-                            <small class="text-muted">Author name</small>
-                        </div>
-                    </div>
-                </div>
+                <partial name="_bookThumbnail" model="new BookModel()" />
+               @*  @await Html.PartialAsync("_bookThumbnail", new BookModel()) *@
+
             </div>
             <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"></svg>
-                    <div class="card-body">
-                        <p class="text"> This section will be used to display the short description of book. </p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-outline-secondary">View details</a>
-                            </div>
-                            <small class="text-muted">Author name</small>
-                        </div>
-                        
-                    </div>
-                </div>
+                <partial name="_bookThumbnail" model="new BookModel()" />
+                @* @{ Html.RenderPartial("_bookThumbnail", new BookModel());} *@
+
+            </div>
+            <div class="col-md-4">
+                <partial name="_bookThumbnail" model="new BookModel()" />
+                @* @{await Html.RenderPartialAsync("_bookThumbnail", new BookModel());} *@
+
             </div>
         </div>
     </div>
