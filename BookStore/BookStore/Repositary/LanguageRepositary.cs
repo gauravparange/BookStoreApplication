@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookStore.Repositary
 {
-    public class LanguageRepositary
+    public class LanguageRepositary : ILanguageRepositary
     {
         private readonly BookStoreContext _context;
         public LanguageRepositary(BookStoreContext context)

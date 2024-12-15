@@ -16,11 +16,11 @@ namespace BookStore.Controllers
 {
     public class BookController : Controller
     {
-        private readonly BookRepositary _bookRepositary;
-        private readonly LanguageRepositary _languageRepositary;
+        private readonly IBookRepositary _bookRepositary;
+        private readonly ILanguageRepositary _languageRepositary;
         private readonly IWebHostEnvironment _webhost;
 
-        public BookController(BookRepositary bookRepositary, LanguageRepositary languageRepositary, IWebHostEnvironment webhost)
+        public BookController(IBookRepositary bookRepositary, ILanguageRepositary languageRepositary, IWebHostEnvironment webhost)
         {
             _bookRepositary = bookRepositary;
             _languageRepositary = languageRepositary;
@@ -73,7 +73,7 @@ namespace BookStore.Controllers
             //});
 
             var model = new BookModel();
-            ViewBag.Language = new SelectList(await _languageRepositary.GetAll(),"Id","Name");
+            //ViewBag.Language = new SelectList(await _languageRepositary.GetAll(),"Id","Name");
             return View(model);
         }
         [HttpPost]
@@ -136,7 +136,7 @@ namespace BookStore.Controllers
             //    new SelectListItem(){Text = "Urdu",Value = "5", Group=group3},
             //    new SelectListItem(){Text = "Malayam",Value = "6", Group=group3},
             //};
-            ViewBag.Language = new SelectList(await _languageRepositary.GetAll(), "Id", "Name");
+            //ViewBag.Language = new SelectList(await _languageRepositary.GetAll(), "Id", "Name");
 
             return View();
         }

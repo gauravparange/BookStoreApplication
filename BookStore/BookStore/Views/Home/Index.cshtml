@@ -23,27 +23,10 @@
 <div class="py-5 bg-light">
     <div class="container">
         <h3 class="h3">Top Books</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <partial name="_bookThumbnail" model="new BookModel()"/>
-               @*  @Html.Partial("_bookThumbnail", new BookModel()) *@
-            </div>
-            <div class="col-md-4">
-                <partial name="_bookThumbnail" model="new BookModel()" />
-               @*  @await Html.PartialAsync("_bookThumbnail", new BookModel()) *@
 
-            </div>
-            <div class="col-md-4">
-                <partial name="_bookThumbnail" model="new BookModel()" />
-                @* @{ Html.RenderPartial("_bookThumbnail", new BookModel());} *@
+        @await Component.InvokeAsync("TopBooks", new { count = 2})
+        <v@* c:top-books count="2"></vc:top-books> *@
 
-            </div>
-            <div class="col-md-4">
-                <partial name="_bookThumbnail" model="new BookModel()" />
-                @* @{await Html.RenderPartialAsync("_bookThumbnail", new BookModel());} *@
-
-            </div>
-        </div>
     </div>
 </div>
 @section breadcrumb{

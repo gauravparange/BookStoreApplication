@@ -1,6 +1,5 @@
 ﻿@model BookModel
-<div class="col-md-4 shadow-sm">
-    <img src="@(string.IsNullOrEmpty(Model.CoverImageUrl) ?  "/images/noimage.png" : Model.CoverImageUrl)" class="img-thumbnail" alt="@Model.Title" />
+    <img src="@(string.IsNullOrEmpty(Model.CoverImageUrl) ?  "/images/noimage.png" : Model.CoverImageUrl)" class="img-thumbnail w-100" alt="@Model.Title" />
         <div class="card-body">
         <h3 class="card-title">@(string.IsNullOrEmpty(Model.Title) ? "Name is not available" : Model.Title)</h3>
         <p class="text">@(string.IsNullOrEmpty(Model.Description) ? "Description is not available" : Model.Description)</p>
@@ -11,4 +10,3 @@
             <small class="text-muted">@(string.IsNullOrEmpty(Model.Author) ? "Author is not available" : Model.Author)</small>
             </div>
     </div>
-</div>

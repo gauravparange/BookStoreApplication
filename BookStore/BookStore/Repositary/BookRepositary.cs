@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace BookStore.Repositary
 {
-    public class BookRepositary
+    public class BookRepositary : IBookRepositary
     {
         private readonly BookStoreContext _context;
         public BookRepositary(BookStoreContext context)
         {
-            _context = context; 
+            _context = context;
         }
         public async Task<List<BookModel>> GetAllBooks()
         {
@@ -30,7 +30,7 @@ namespace BookStore.Repositary
                         Category = book.Category,
                         Description = book.Description,
                         LanguageId = book.LanguageId,
-                        Language =  _context.Language.Where(x => x.Id == book.LanguageId).FirstOrDefault().name,
+                        Language = _context.Language.Where(x => x.Id == book.LanguageId).FirstOrDefault().name,
                         Title = book.Title,
                         TotalPages = book.TotalPages,
                         CoverImageUrl = book.CoverImageUrl
@@ -63,7 +63,7 @@ namespace BookStore.Repositary
 
             }).FirstOrDefaultAsync();
         }
-        public async Task<int>  AddNewBook(BookModel book) 
+        public async Task<int> AddNewBook(BookModel book)
         {
             var newbook = new Books()
             {
@@ -95,7 +95,31 @@ namespace BookStore.Repositary
             return _context.Books.Where(x => x.Title.Contains(title) && x.Author.Contains(authorName)).ToList();
 
         }
-        
-      
+        public async Task<List<BookModel>> GetTopBooksAsync(int count)
+        {
+            var books = new List<BookModel>();
+            var allBooks = await _context.Books.Take(count).ToListAsync();
+            if (allBooks.Any() == true)
+            {
+                foreach (var book in allBooks)
+                {
+                    books.Add(new BookModel()
+                    {
+                        Id = book.Id,
+                        Author = book.Author,
+                        Category = book.Category,
+                        Description = book.Description,
+                        LanguageId = book.LanguageId,
+                        Language = _context.Language.Where(x => x.Id == book.LanguageId).FirstOrDefault().name,
+                        Title = book.Title,
+                        TotalPages = book.TotalPages,
+                        CoverImageUrl = book.CoverImageUrl
+
+                    });
+                }
+            }
+            return books;
+        }
+
     }
 }

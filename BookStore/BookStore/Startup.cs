@@ -27,10 +27,10 @@ namespace BookStore
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server = localhost\\SQLEXPRESS; Database = BookStore; Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30"));
+            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer("Server = MSI\\SQLEXPRESS; Database = BookStore; Integrated Security=true;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30"));
             services.AddControllersWithViews();
-            services.AddScoped<BookRepositary, BookRepositary>();
-            services.AddScoped<LanguageRepositary, LanguageRepositary>();
+            services.AddScoped<IBookRepositary, BookRepositary>();
+            services.AddScoped<ILanguageRepositary, LanguageRepositary>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //    .AddViewOptions(option =>
