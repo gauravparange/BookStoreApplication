@@ -1,6 +1,10 @@
 ﻿using BookStore.Models;
+using BookStore.Repositary;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,10 +17,16 @@ namespace BookStore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public readonly NewBookAlertConfig _newbookAlertconfiguration;
+        public readonly NewBookAlertConfig _thirdPartyBookconfiguration;
+        public readonly IMessageRepositary _messageRepositary;
+        public HomeController(ILogger<HomeController> logger, IOptionsSnapshot<NewBookAlertConfig> newbookAlertconfiguration,
+            IMessageRepositary messageRepositary)
         {
             _logger = logger;
+            _newbookAlertconfiguration = newbookAlertconfiguration.Get("InternalBook");
+            _thirdPartyBookconfiguration = newbookAlertconfiguration.Get("ThirdPartyBook");
+            _messageRepositary = messageRepositary;
         }
         [ViewData]
         public string Title { get; set; }
@@ -25,15 +35,18 @@ namespace BookStore.Controllers
             //ViewBag.Title = "Home";
             //ViewBag.Id = 1;
 
-            dynamic data = new ExpandoObject();
-            data.Title = "Title";
-            data.Id = 2;
-            ViewBag.data = data;
-            Title = "HomePage";
-            //ViewBag.type = new BookModel() { Id = 3, Title = "Type" };
+            //dynamic data = new ExpandoObject();
+            //data.Title = "Title";
+            //data.Id = 2;
+            //ViewBag.data = data;
+            //Title = "HomePage";
+            ////ViewBag.type = new BookModel() { Id = 3, Title = "Type" };
 
-            ViewData["MyProperty"] = "Home";
-            ViewData["book"] = new BookModel() { Id = 1, Author = "Gaurav" };
+            //ViewData["MyProperty"] = "Home";
+            //ViewData["book"] = new BookModel() { Id = 1, Author = "Gaurav" };
+
+            var value = _messageRepositary.GetName();
+
             return View();
         }
         public IActionResult AboutUs()

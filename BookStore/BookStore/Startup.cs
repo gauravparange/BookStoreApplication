@@ -1,4 +1,5 @@
 using BookStore.Data;
+using BookStore.Models;
 using BookStore.Repositary;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +32,7 @@ namespace BookStore
             services.AddControllersWithViews();
             services.AddScoped<IBookRepositary, BookRepositary>();
             services.AddScoped<ILanguageRepositary, LanguageRepositary>();
+            services.AddSingleton<IMessageRepositary, MessageRepositary>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //    .AddViewOptions(option =>
@@ -39,6 +41,8 @@ namespace BookStore
             //    option.HtmlHelperOptions.ClientValidationEnabled = false;
             //});
 #endif
+            services.Configure<NewBookAlertConfig>("InternalBook", Configuration.GetSection("NewBookAlert"));
+            services.Configure<NewBookAlertConfig>("ThirdPartyBook",Configuration.GetSection("ThirdBookAlert"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
