@@ -4,6 +4,7 @@ using BookStore.Repositary;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,10 +30,23 @@ namespace BookStore
         {
 
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<BookStoreContext>();
+
+            //services.Configure<IdentityOptions>(options =>
+            //{
+            //    options.Password.RequiredLength = 5;
+            //    options.Password.RequiredUniqueChars = 1;
+            //    options.Password.RequireDigit = false;
+            //    options.Password.RequireLowercase = false;
+            //    options.Password.RequireNonAlphanumeric = false;
+            //    options.Password.RequireUppercase = false;
+            //});
+
             services.AddControllersWithViews();
             services.AddScoped<IBookRepositary, BookRepositary>();
             services.AddScoped<ILanguageRepositary, LanguageRepositary>();
             services.AddSingleton<IMessageRepositary, MessageRepositary>();
+            services.AddScoped<IAccountRepositary, AccountRepositary>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //    .AddViewOptions(option =>
@@ -59,7 +73,7 @@ namespace BookStore
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
