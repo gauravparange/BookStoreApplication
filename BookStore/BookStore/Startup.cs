@@ -1,6 +1,8 @@
 using BookStore.Data;
+using BookStore.Helpers;
 using BookStore.Models;
 using BookStore.Repositary;
+using BookStore.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
@@ -30,23 +32,30 @@ namespace BookStore
         {
 
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
-            services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<BookStoreContext>();
+            services.AddIdentity<ApplicationUser,IdentityRole>().AddEntityFrameworkStores<BookStoreContext>().AddDefaultTokenProviders();
 
-            //services.Configure<IdentityOptions>(options =>
-            //{
-            //    options.Password.RequiredLength = 5;
-            //    options.Password.RequiredUniqueChars = 1;
-            //    options.Password.RequireDigit = false;
-            //    options.Password.RequireLowercase = false;
-            //    options.Password.RequireNonAlphanumeric = false;
-            //    options.Password.RequireUppercase = false;
-            //});
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 5;
+                options.Password.RequiredUniqueChars = 1;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.SignIn.RequireConfirmedEmail = true;
+            });
 
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = Configuration["Application:LoginPath"];
+            });
             services.AddControllersWithViews();
             services.AddScoped<IBookRepositary, BookRepositary>();
             services.AddScoped<ILanguageRepositary, LanguageRepositary>();
             services.AddSingleton<IMessageRepositary, MessageRepositary>();
             services.AddScoped<IAccountRepositary, AccountRepositary>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailService, EmailService>();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
             //    .AddViewOptions(option =>
@@ -55,6 +64,8 @@ namespace BookStore
             //    option.HtmlHelperOptions.ClientValidationEnabled = false;
             //});
 #endif
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory > ();
+            services.Configure < SMTPConfgiModel > (Configuration.GetSection("SMTPConfig"));
             services.Configure<NewBookAlertConfig>("InternalBook", Configuration.GetSection("NewBookAlert"));
             services.Configure<NewBookAlertConfig>("ThirdPartyBook",Configuration.GetSection("ThirdBookAlert"));
         }

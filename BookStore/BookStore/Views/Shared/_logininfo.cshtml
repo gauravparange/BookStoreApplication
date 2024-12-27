@@ -4,10 +4,11 @@
     
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" >
-            Hello @User.Identity.Name
+            Hello <b> @(User.FindFirst("UserFirstName").Value + ' ' + User.FindFirst("UserLastName").Value)</b>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" asp-action="logout" asp-controller="Account">Logout</a>
+            <a class="dropdown-item" asp-action="ChangePassword" asp-controller="Account">Change Password</a>
         </div>
     </li>
 }
@@ -15,7 +16,7 @@ else
 {
     
     <li class="nav-item">
-        <a class="btn btn-outline-primary" asp-controller="Account" asp-action="login">Login</a>
+        <a class="btn btn-outline-primary" asp-controller="Account" asp-action="login" asp-route-returnUrl="@Context.Request.Path">Login</a>
         <a class="btn btn-primary" asp-controller="Account" asp-action="signup">Register</a>
     </li>
 }

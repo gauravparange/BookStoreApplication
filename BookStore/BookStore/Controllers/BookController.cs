@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace BookStore.Controllers
 {
@@ -40,6 +42,7 @@ namespace BookStore.Controllers
         {
             return _bookRepositary.SearchBook(title, Authorname);
         }
+        [Authorize]
         public async Task<IActionResult> AddNewBook(bool issuccess = false, int bookId = 0)
         {
             ViewBag.IsSuccess = issuccess;

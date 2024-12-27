@@ -1,5 +1,6 @@
 ﻿using BookStore.Models;
 using BookStore.Repositary;
+using BookStore.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
@@ -20,18 +21,35 @@ namespace BookStore.Controllers
         public readonly NewBookAlertConfig _newbookAlertconfiguration;
         public readonly NewBookAlertConfig _thirdPartyBookconfiguration;
         public readonly IMessageRepositary _messageRepositary;
+        private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
         public HomeController(ILogger<HomeController> logger, IOptionsSnapshot<NewBookAlertConfig> newbookAlertconfiguration,
-            IMessageRepositary messageRepositary)
+            IMessageRepositary messageRepositary, IUserService userService, IEmailService emailService)
         {
             _logger = logger;
             _newbookAlertconfiguration = newbookAlertconfiguration.Get("InternalBook");
             _thirdPartyBookconfiguration = newbookAlertconfiguration.Get("ThirdPartyBook");
             _messageRepositary = messageRepositary;
+            _userService = userService;
+            _emailService = emailService;
         }
         [ViewData]
         public string Title { get; set; }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            //var userId = _userService.GetUserId();
+            //var IsLoggedIn = _userService.IsAuthenticated();
+            //UserEmailOptions options = new UserEmailOptions
+            //{
+            //    ToEmails = new List<string>() { "gauravparange@gmail.com" },
+            //    PlaceHolders = new List<KeyValuePair<string, string>>()
+            //    {
+            //        new KeyValuePair<string, string>("{{UserName}}","Nitesh")
+            //    }
+                
+            //};
+            //await _emailService.SendTestEmail(options);
+
             //ViewBag.Title = "Home";
             //ViewBag.Id = 1;
 
