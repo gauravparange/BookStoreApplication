@@ -46,7 +46,7 @@ namespace BookStore.Controllers
             //    {
             //        new KeyValuePair<string, string>("{{UserName}}","Nitesh")
             //    }
-                
+
             //};
             //await _emailService.SendTestEmail(options);
 
