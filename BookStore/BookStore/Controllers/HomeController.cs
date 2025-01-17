@@ -1,6 +1,7 @@
 ﻿using BookStore.Models;
 using BookStore.Repositary;
 using BookStore.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
@@ -72,7 +73,7 @@ namespace BookStore.Controllers
             Title = "About Us Page";
             return View();
         }
-        
+        [Authorize(Roles ="Admin")]
         public IActionResult ContactUs()
         {
             return View();

@@ -14,14 +14,19 @@
         asp-fallback-test-class="sr-only"
         asp-fallback-test-property="position"
         asp-fallback-test-value="absolute"
+
         integrity="" 
         crossorigin="anonymous">
+        <link href="~/css/site.css" rel="stylesheet" />
+        <link href="~/css/NewStyle.css" rel="stylesheet" />
     </environment>
     <environment include="Production">
         <link href="~/lib/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="~/css/site.min.css" rel="stylesheet" />
+
     </environment>
     <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/css/site.css" rel="stylesheet" />
+  
 </head>
 <body>
    <partial name="_header" />

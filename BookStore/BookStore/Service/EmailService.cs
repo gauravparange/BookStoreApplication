@@ -22,7 +22,13 @@ namespace BookStore.Service
         public async Task SendConfirmedEmail(UserEmailOptions options)
         {
             options.Subject = UpdatePlaceHolders("Hello {{UserName}},Confirmed your email id.", options.PlaceHolders);
-            options.Body = UpdatePlaceHolders(GetEmailBody("EmailConfirm"), options.PlaceHolders);
+            options.Body = UpdatePlaceHolders(GetEmailBody("ConfirmEmail"), options.PlaceHolders);
+            await SendEmail(options);
+        }
+        public async Task SendEmailForForgotPassword(UserEmailOptions options)
+        {
+            options.Subject = UpdatePlaceHolders("Hello {{UserName}},reset your password.", options.PlaceHolders);
+            options.Body = UpdatePlaceHolders(GetEmailBody("ForgotPassword"), options.PlaceHolders);
             await SendEmail(options);
         }
         public EmailService(IOptions<SMTPConfgiModel> smtpConfig)
